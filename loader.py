@@ -5,12 +5,13 @@ from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 #from langchain_openai import OpenAIEmbeddings
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 import os
-from langchain import max_relevance_search
+from dotenv import load_dotenv
 
 
 def main():
 
-    MONGODB_ATLAS_CLUSTER_URI = "mongodb+srv://rayh:mongodb4u@sandbox.fgkzb.mongodb.net/?retryWrites=true&w=majority&appName=sandbox"
+    load_dotenv()
+    MONGODB_ATLAS_CLUSTER_URI = os.getenv("MONGO_CONNECTION_STRING")
     client = MongoClient(MONGODB_ATLAS_CLUSTER_URI)
 
     DB_NAME = "search_db"
@@ -21,11 +22,11 @@ def main():
 
     embeddings = OpenAIEmbeddings(
         model="text-embedding-ada-002", 
-        openai_api_key = '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',
+        openai_api_key = os.getenv("OPENAI_API_KEY"),
     )
 
     loader = MongodbLoader(
-        connection_string="mongodb+srv://rayh:mongodb4u@sandbox.fgkzb.mongodb.net/?retryWrites=true&w=majority&appName=sandbox",
+        connection_string=os.getenv("MONGO_CONNECTION_STRING"),
         db_name="search_db",
         collection_name="search_col",
         #filter_criteria={"borough": "Bronx", "cuisine": "Bakery"},

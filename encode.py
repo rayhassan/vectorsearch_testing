@@ -2,6 +2,8 @@ import torch
 from transformers import AutoTokenizer, AutoModel, AutoConfig
 import pymongo
 import pandas as pd
+import os
+from dotenv import load_dotenv
 
 # Load MiniLM model and tokenizer
 model_name = "sentence-transformers/all-MiniLM-L6-v2"
@@ -10,7 +12,8 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModel.from_pretrained(model_name, config=config)
 
 # Connect to MongoDB
-connection_string = "mongodb+srv://rayh:mongodb4u@sandbox.fgkzb.mongodb.net/"
+load_dotenv()
+connection_string = os.getenv("MONGO_CONNECTION_STRING")
 client = pymongo.MongoClient(connection_string)
 db = client['search_db']
 collection = db['search_coll'] 

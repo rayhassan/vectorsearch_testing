@@ -4,11 +4,14 @@ from sentence_transformers import SentenceTransformer, util
 #from langchain_community.vectorstores import MongoDBAtlasVectorSearch
 from langchain_mongodb import MongoDBAtlasVectorSearch
 from langchain_community.embeddings import HuggingFaceEmbeddings, SentenceTransformerEmbeddings
+import os
+from dotenv import load_dotenv
 
 
 def main():
 
-    connection_string = "mongodb+srv://rayh:mongodb4u@sandbox.fgkzb.mongodb.net/"
+    load_dotenv()
+    connection_string = os.getenv("MONGO_CONNECTION_STRING")
     client = pymongo.MongoClient(connection_string)
 
     db = client["search_db"]

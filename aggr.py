@@ -3,12 +3,14 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 #from langchain_openai import OpenAIEmbeddings
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 import os
+from dotenv import load_dotenv
 from bson import json_util
 import json
 
 def main():
 
-    MONGODB_ATLAS_CLUSTER_URI = "mongodb+srv://rayh:mongodb4u@sandbox.fgkzb.mongodb.net/?retryWrites=true&w=majority&appName=sandbox"
+    load_dotenv()
+    MONGODB_ATLAS_CLUSTER_URI = os.getenv("MONGO_CONNECTION_STRING")
     client = MongoClient(MONGODB_ATLAS_CLUSTER_URI)
 
     DB_NAME = "search_db"
@@ -17,7 +19,7 @@ def main():
 
     embeddings = OpenAIEmbeddings(
         model="text-embedding-ada-002", 
-        openai_api_key = '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',
+        openai_api_key = os.getenv("OPENAI_API_KEY"),
         disallowed_special=(),
     )
 
